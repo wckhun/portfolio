@@ -1,0 +1,1306 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Designer Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --teal: #00d4b4;
+    --teal-dim: rgba(0,212,180,0.15);
+    --teal-glow: rgba(0,212,180,0.4);
+    --white: #f0ede8;
+    --white-dim: rgba(240,237,232,0.6);
+    --bg-dark: rgba(4,8,12,0.82);
+    --bg-card: rgba(8,16,22,0.75);
+    --border: rgba(0,212,180,0.2);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--white);
+    background-color: #04080c;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── PARALLAX VIDEO BACKGROUND ─────────────────── */
+  .bg-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .bg-layer video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) translateY(0px);
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    opacity: 0.62;
+    will-change: transform;
+    transition: transform 0.05s linear;
+  }
+  .bg-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    background: radial-gradient(ellipse at 20% 50%, rgba(0,60,50,0.1) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 20%, rgba(0,40,80,0.1) 0%, transparent 60%),
+                linear-gradient(to bottom, rgba(4,8,12,0.15) 0%, rgba(4,8,12,0.05) 50%, rgba(4,8,12,0.2) 100%);
+    pointer-events: none;
+  }
+
+  /* ── NAV ────────────────────────────────────────── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 4rem;
+    background: rgba(4,8,12,0.6);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    letter-spacing: 0.15em;
+    color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--teal); }
+  .nav-links {
+    display: flex;
+    gap: 3rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 0.91rem;
+    letter-spacing: 0.3em;
+    text-transform: none;
+    color: var(--teal);
+    text-decoration: none;
+    transition: color 0.3s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 1px;
+    background: var(--teal);
+    transition: width 0.3s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a:hover::after { width: 100%; }
+  .nav-en {
+    display: block;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    letter-spacing: 0.15em;
+    color: var(--teal);
+    opacity: 1;
+    margin-top: 0.1rem;
+    text-align: center;
+  }
+
+  /* ── MAIN CONTENT WRAPPER ───────────────────────── */
+  main { position: relative; z-index: 2; }
+
+  /* ── SECTION SHARED ────────────────────────────── */
+  section { position: relative; }
+  .section-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+  .section-label {
+    font-size: 1.5rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.6rem;
+    text-align: center;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.75rem, 3.5vw, 3.45rem);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    margin-bottom: 1.5rem;
+    text-align: center;
+  }
+  .section-divider {
+    width: 60px; height: 1px;
+    background: linear-gradient(to right, var(--teal), transparent);
+    margin: 0 auto 4rem;
+  }
+
+  /* ── HERO / HEADER VIDEO ────────────────────────── */
+  #hero {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: flex-end;
+    padding-bottom: 6rem;
+    overflow: hidden;
+    position: relative;
+  }
+  .hero-video-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+  .hero-video-wrap video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hero-video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(4,8,12,0.3) 0%,
+      rgba(4,8,12,0.1) 40%,
+      rgba(4,8,12,0.85) 100%
+    );
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 0 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.4s forwards;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.5rem, 8vw, 9rem);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+  .hero-name em {
+    font-style: italic;
+    color: var(--teal);
+  }
+  .hero-tagline {
+    margin-top: 1.5rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    opacity: 0;
+    animation: fadeUp 0.8s 0.9s forwards;
+  }
+  .scroll-hint {
+    position: absolute;
+    bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--white-dim);
+    animation: pulse 2s infinite;
+  }
+  .scroll-hint::after {
+    content: '';
+    display: block;
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--teal), transparent);
+  }
+
+  /* ── PORTFOLIO SECTION ──────────────────────────── */
+  #portfolio {
+    padding: 10rem 0 8rem;
+    background: transparent;
+  }
+  .portfolio-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8rem;
+    align-items: center;   /* center every portfolio-item horizontally */
+    width: 100%;
+  }
+
+  .portfolio-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.2rem;
+    width: 100%;
+  }
+
+  /* Title + desc grouped tightly */
+  .item-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    width: 100%;
+    max-width: 700px;
+  }
+
+  /* Video wrapper — sized by its own natural aspect ratio */
+  .video-wrapper {
+    position: relative;
+    cursor: pointer;
+    border: 1px solid var(--border);
+    background: #000;
+    overflow: hidden;
+    transition: box-shadow 0.4s, border-color 0.4s;
+    flex-shrink: 0;
+  }
+  .video-wrapper:hover {
+    border-color: rgba(0,212,180,0.5);
+    box-shadow: 0 0 40px -5px var(--teal-glow), 0 0 80px -20px var(--teal-glow);
+  }
+
+  /* Square 1:1 — capped at 600px so it fits on screen */
+  .ratio-1-1 {
+    width: min(600px, 90vw);
+    aspect-ratio: 1 / 1;
+  }
+
+  /* TikTok actual display ratio: SAR 108:173 = 674×1080 (portrait) */
+  .ratio-tiktok {
+    width: min(420px, 90vw);
+    aspect-ratio: 108 / 173;
+  }
+
+  /* CNY actual display ratio: SAR 9:16 = 607×1080 (portrait) */
+  .ratio-9-16 {
+    width: min(394px, 90vw);
+    aspect-ratio: 9 / 16;
+  }
+
+  /* Widescreen 16:9 — fills container width up to 1100px */
+  .ratio-16-9 {
+    width: min(1100px, 90vw);
+    aspect-ratio: 16 / 9;
+  }
+
+  /* The actual <video> fills its wrapper exactly */
+  .video-wrapper video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: fill; /* fill = exact dimensions, no crop, no bars */
+  }
+
+  /* Play overlay shown when video is paused */
+  .video-thumb {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(4,8,12,0.45);
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+  .video-thumb.hidden { opacity: 0; }
+
+  .play-icon {
+    width: 64px; height: 64px;
+    border: 1.5px solid var(--teal);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(12px);
+    background: rgba(0,212,180,0.12);
+  }
+  .play-icon::after {
+    content: '';
+    border-left: 20px solid var(--teal);
+    border-top: 12px solid transparent;
+    border-bottom: 12px solid transparent;
+    margin-left: 5px;
+  }
+
+  /* Title + desc group above video */
+  .item-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.1rem;
+    width: 100%;
+  }
+
+  /* Title sits above the video */
+  .item-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.7rem, 2.1vw, 1.7rem);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: var(--teal);
+    margin-bottom: 0;
+  }
+
+  /* Chinese description line */
+  .item-desc-zh {
+    color: rgba(240,237,232,0.45);
+    margin-top: 0.1rem;
+  }
+  /* Description directly under title, tight */
+  .item-desc {
+    font-size: 1.1rem;
+    line-height: 1.9;
+    color: var(--white);
+    letter-spacing: 0.03em;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 0;
+  }
+  .item-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 0 auto;
+  }
+  .tag {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.9rem;
+    border: 1px solid var(--border);
+    color: var(--white);
+    background: var(--teal-dim);
+  }
+
+  /* Info block below video */
+  .item-info {
+    text-align: center;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+  }
+  .item-number {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    color: var(--teal);
+    margin-bottom: 0.6rem;
+  }
+
+  /* ── RESUME SECTION ─────────────────────────────── */
+  #resume {
+    padding: 10rem 0 8rem;
+  }
+  .resume-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .resume-col { padding: 3rem; background: var(--bg-card); border: 1px solid var(--border); }
+  .resume-entries-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem;
+  }
+  .resume-col-title {
+    font-size: 0.8rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 2.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .resume-entry {
+    margin-bottom: 2.5rem;
+    padding-left: 1rem;
+    border-left: 2px solid var(--border);
+    transition: border-color 0.3s;
+  }
+  .resume-entry:hover { border-color: var(--teal); }
+  .resume-entry-year {
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    color: var(--teal);
+    margin-bottom: 0.4rem;
+  }
+  .resume-entry-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin-bottom: 0.3rem;
+  }
+  .resume-entry-sub {
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    color: var(--white-dim);
+    margin-bottom: 0.6rem;
+  }
+  .resume-entry-desc {
+    font-size: 0.8rem;
+    line-height: 1.8;
+    color: rgba(240,237,232,0.45);
+  }
+
+  /* Skills bar */
+  .skills-list { display: flex; flex-direction: column; gap: 1.4rem; }
+  .skill-item {}
+  .skill-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+    color: var(--white-dim);
+  }
+  .skill-bar {
+    height: 1px;
+    background: rgba(240,237,232,0.1);
+    position: relative;
+  }
+  .skill-fill {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    background: linear-gradient(to right, var(--teal), rgba(0,212,180,0.3));
+    transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* Profile block */
+  .profile-block {
+    display: flex;
+    gap: 3rem;
+    margin-bottom: 4rem;
+    padding: 3rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    align-items: center;
+  }
+  .profile-info {}
+  .profile-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.7rem;
+    font-weight: 300;
+    margin-bottom: 0.4rem;
+  }
+  .profile-role {
+    font-size: 0.8rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 1rem;
+  }
+  .profile-bio {
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--white-dim);
+  }
+
+  /* ── CONTACT SECTION ────────────────────────────── */
+  #contact {
+    padding: 10rem 0 12rem;
+    background: rgba(4,8,12,0.6);
+    backdrop-filter: blur(4px);
+  }
+  .contact-grid {
+    display: block;
+  }
+  .contact-info {
+    max-width: 100%;
+    margin: 0;
+  }
+  .contact-items-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+  .contact-form-area {}
+  .contact-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+  }
+  .contact-subtext {
+    font-size: 0.7rem;
+    line-height: 1.9;
+    color: var(--white-dim);
+    margin-bottom: 3rem;
+  }
+  .form-row { margin-bottom: 1.5rem; }
+  .form-label {
+    display: block;
+    font-size: 0.6rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.5rem;
+  }
+  .form-input, .form-textarea {
+    width: 100%;
+    background: rgba(8,16,22,0.8);
+    border: 1px solid var(--border);
+    padding: 0.9rem 1rem;
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    -webkit-appearance: none;
+  }
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--teal);
+    box-shadow: 0 0 15px -5px var(--teal-glow);
+  }
+  .form-textarea { resize: vertical; min-height: 120px; }
+  .btn-send {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 2.5rem;
+    background: transparent;
+    border: 1px solid var(--teal);
+    color: var(--teal);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s;
+    margin-top: 0.5rem;
+  }
+  .btn-send:hover {
+    background: var(--teal);
+    color: #04080c;
+    box-shadow: 0 0 30px -5px var(--teal-glow);
+  }
+  .btn-send::after { content: '→'; font-size: 1rem; }
+  .contact-info { padding-top: 1rem; }
+  .contact-info-title {
+    font-size: 1rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-info-item {
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(0,212,180,0.08);
+  }
+  .contact-icon {
+    width: 62px; height:62px; min-width: 42px;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2rem;
+    color: var(--teal);
+    flex-shrink: 0;
+  }
+  .contact-detail-label {
+    font-size: 1rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin-bottom: 0.2rem;
+  }
+  .contact-detail-value {
+    font-size: 0.9rem;
+    color: var(--white-dim);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ─────────────────────────────────────── */
+  footer {
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid var(--border);
+    padding: 2rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(4,8,12,0.85);
+  }
+  .footer-copy {
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: rgba(240,237,232,0.3);
+  }
+  .footer-mark {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.9rem;
+    color: var(--teal);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── ANIMATIONS ─────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  /* Scroll reveal - content always visible */
+  .reveal { opacity: 1; transform: none; animation: revealAnim 0.7s ease both; }
+  @keyframes revealAnim { from { opacity: 0.2; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+
+  /* ── HAMBURGER BUTTON ───────────────────────────── */
+  .nav-hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+    background: none;
+    border: none;
+    z-index: 200;
+  }
+  .nav-hamburger span {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: var(--teal);
+    transition: transform 0.3s, opacity 0.3s;
+  }
+  .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+  .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* ── MOBILE DRAWER ──────────────────────────────── */
+  .nav-drawer {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(4,8,12,0.97);
+    backdrop-filter: blur(20px);
+    z-index: 99;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+  }
+  .nav-drawer.open { display: flex; }
+  .nav-drawer a {
+    font-size: 1.8rem;
+    letter-spacing: 0.15em;
+    color: var(--white);
+    text-decoration: none;
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    text-align: center;
+  }
+  .nav-drawer a:hover { color: var(--teal); }
+  .nav-drawer .drawer-en {
+    display: block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--teal);
+    opacity: 0.7;
+    margin-top: 0.3rem;
+  }
+
+  /* ── TABLET (max 900px) ─────────────────────────── */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .section-inner { padding: 0 2rem; }
+    .hero-content { padding: 0 2rem; }
+    .resume-entries-grid { grid-template-columns: 1fr; }
+    .contact-items-grid { grid-template-columns: 1fr; }
+    .profile-block { flex-direction: column; text-align: center; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem 2rem; }
+  }
+
+  /* ── MOBILE (max 480px) ─────────────────────────── */
+  @media (max-width: 480px) {
+
+    /* Nav */
+    nav { padding: 1rem 1.2rem; }
+    .nav-links { display: none; }
+    .nav-hamburger { display: flex; }
+    .nav-logo { font-size: 1.1rem; }
+
+    /* Sections spacing */
+    .section-inner { padding: 0 1.2rem; }
+    #portfolio { padding: 6rem 0 5rem; }
+    #resume    { padding: 6rem 0 5rem; }
+    #contact   { padding: 6rem 0 7rem; }
+
+    /* Section headings */
+    .section-label { font-size: 0.9rem; letter-spacing: 0.2em; }
+    .section-title { font-size: clamp(1.4rem, 6vw, 2rem); margin-bottom: 1rem; }
+    .section-divider { margin-bottom: 2.5rem; }
+
+    /* Hero */
+    #hero { padding-bottom: 4rem; }
+    .hero-content { padding: 0 1.2rem; }
+    .scroll-hint { display: none; }
+
+    /* Portfolio */
+    .portfolio-grid { gap: 4rem; }
+    .portfolio-item { gap: 0.8rem; }
+    .item-header { max-width: 100%; }
+    .item-title { font-size: 1rem; }
+    .item-desc  { font-size: 0.85rem; max-width: 100%; }
+    .item-desc-zh { font-size: 0.8rem; }
+
+    /* Video containers — full phone width */
+    .ratio-1-1    { width: 92vw; }
+    .ratio-tiktok { width: 70vw; }
+    .ratio-9-16   { width: 65vw; }
+    .ratio-16-9   { width: 92vw; }
+
+    /* Play icon smaller */
+    .play-icon {
+      width: 48px; height: 48px;
+    }
+    .play-icon::after {
+      border-left: 15px solid var(--teal);
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+    }
+
+    /* Resume */
+    .resume-col { padding: 1.5rem 1.2rem; }
+    .resume-entries-grid { grid-template-columns: 1fr; gap: 0; }
+    .resume-entry { margin-bottom: 1.8rem; }
+    .resume-entry-title { font-size: 1rem; }
+    .profile-block { flex-direction: column; text-align: center; gap: 1.5rem; padding: 1.5rem; }
+    .profile-name { font-size: 1.4rem; }
+    .profile-bio  { font-size: 0.8rem; }
+
+    /* Skill bar */
+    .skill-header { font-size: 0.6rem; }
+
+    /* Contact */
+    .contact-items-grid { grid-template-columns: 1fr; gap: 0; }
+    .contact-info-title { font-size: 0.8rem; }
+    .contact-icon { width: 42px; height: 42px; min-width: 42px; font-size: 1.2rem; }
+    .contact-detail-label { font-size: 0.75rem; }
+    .contact-detail-value { font-size: 0.8rem; }
+    .contact-info-item { gap: 1rem; }
+
+    /* Footer */
+    footer { flex-direction: column; gap: 0.8rem; text-align: center; padding: 1.5rem 1.2rem; }
+    .footer-copy { font-size: 0.55rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-layer">
+  <video autoplay muted loop playsinline preload="auto">
+    <source src="Background.mp4" type="video/mp4">
+  </video>
+</div>
+<div class="bg-overlay"></div>
+
+<!-- ─── NAV ───────────────────────────────────────── -->
+<nav>
+  <a class="nav-logo" href="#hero"></a>
+  <ul class="nav-links">
+    <li><a href="#portfolio">作品集 <span class="nav-en">Portfolio</span></a></li>
+    <li><a href="#resume">简历 <span class="nav-en">Resume</span></a></li>
+    <li><a href="#contact">联系 <span class="nav-en">Contact</span></a></li>
+  </ul>
+  <button class="nav-hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- Mobile full-screen drawer -->
+<div class="nav-drawer" id="navDrawer">
+  <a href="#portfolio" onclick="closeDrawer()">作品集<span class="drawer-en">Portfolio</span></a>
+  <a href="#resume"    onclick="closeDrawer()">简历<span class="drawer-en">Resume</span></a>
+  <a href="#contact"   onclick="closeDrawer()">联系<span class="drawer-en">Contact</span></a>
+</div>
+
+<main>
+
+<!-- ─── HERO ──────────────────────────────────────── -->
+<section id="hero">
+  <div class="hero-video-wrap">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="Header.mp4" type="video/mp4">
+    </video>
+    <div class="hero-video-overlay"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow" style="display:none"></p>
+    <h1 class="hero-name" style="display:none"></h1>
+    <p class="hero-tagline" style="display:none"></p>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ─── PORTFOLIO ─────────────────────────────────── -->
+<section id="portfolio">
+  <div class="section-inner">
+    <p class="section-label reveal">作品集</p>
+    <h2 class="section-title reveal">Portfolio</h2>
+    <div class="section-divider reveal"></div>
+
+    <div class="portfolio-grid">
+
+      <!-- Item 1: TikTok -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">RHB Shell Visa TikTok Video / 宣传片</h3>
+        <p class="item-desc">TikTok video promoting cashback rewards and smart spending.</p>
+        <p class="item-desc item-desc-zh">以 TikTok 短视频推广现金回扣与精明消费。</p>
+        </div>
+        <div class="video-wrapper ratio-tiktok">
+          <video preload="metadata" loop playsinline muted>
+            <source src="240906_Tik_Tok.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+      <!-- Item 2: RHB -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">RHB Premier Property Loan Video / 海外房贷宣传片</h3>
+        <p class="item-desc">Flexible financing for overseas property investment.</p>
+        <p class="item-desc item-desc-zh">推广海外置业融资，助力全球投资。</p>
+        </div>
+        <div class="video-wrapper ratio-16-9">
+          <video preload="metadata" loop playsinline muted>
+            <source src="250711_RHB979_RHB_Overseas_Property_Loan.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+      <!-- Item 3: Christmas 2024 -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">Eminent Creative Christmas Video / 圣诞祝福片</h3>
+        <p class="item-desc">Spreading festive joy, warmth, and appreciation.</p>
+        <p class="item-desc item-desc-zh">传递温馨圣诞祝福与感恩心意。</p>
+        </div>
+        <div class="video-wrapper ratio-1-1">
+          <video preload="metadata" loop playsinline muted>
+            <source src="Christmas_2024.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+      <!-- Item 4: CNY 2025 -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">Eminent Creative CNY Wishes Video / 新春祝福片</h3>
+        <p class="item-desc">A CNY video celebrating renewal and prosperity.</p>
+        <p class="item-desc item-desc-zh">灵蛇迎春，寓意新生与丰盛。</p>
+        </div>
+        <div class="video-wrapper ratio-9-16">
+          <video preload="metadata" loop playsinline muted>
+            <source src="CNY_2025_E_Greeting.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+      <!-- Item 5: Anakku -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">Anakku Disney Packaging Design / 沐浴系列包装设计</h3>
+        <p class="item-desc">Fun Disney-themed packaging with strong shelf appeal.</p>
+        <p class="item-desc item-desc-zh">迪士尼主题包装，提升吸引力。</p>
+        </div>
+        <div class="video-wrapper ratio-16-9">
+          <video preload="metadata" loop playsinline muted>
+            <source src="anakku.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+      <!-- Item 6: DU Event – 1920x1080 -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">Dream Union Event Branding / 筑梦联盟大会品牌设计</h3>
+        <p class="item-desc">Unified branding across event touchpoints.</p>
+        <p class="item-desc item-desc-zh">整合设计呈现大会品牌形象。</p>
+        </div>
+        <div class="video-wrapper ratio-16-9">
+          <video preload="metadata" loop playsinline muted>
+            <source src="DU_Event.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+      <!-- Item 7: EcoSanctuary Final – 1920x1080 -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">Eco Sanctuary Logo Design / 标志设计</h3>
+        <p class="item-desc">A logo inspired by nature and serenity.</p>
+        <p class="item-desc item-desc-zh">以自然与建筑意境打造标志。</p>
+        </div>
+        <div class="video-wrapper ratio-16-9">
+          <video preload="metadata" loop playsinline muted>
+            <source src="EcoSantuary_Final.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+      <!-- Item 8: Green Car Financing ChargeEV – 1080x1080 -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">RHB Green Financing Campaign / 绿色金融推广活动</h3>
+        <p class="item-desc">Driving awareness of sustainable financing.</p>
+        <p class="item-desc item-desc-zh">推动绿色金融认知与参与。</p>
+        </div>
+        <div class="video-wrapper ratio-1-1">
+          <video preload="metadata" loop playsinline muted>
+            <source src="Green_Car_Financing_ChargeEV.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+      <!-- Item 9: SASS – 1080x1080 -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">SASS 10th Anniversary Magazine / 学院十周年纪念刊</h3>
+        <p class="item-desc">Celebrating a decade of growth and achievements.</p>
+        <p class="item-desc item-desc-zh">记录学院十年成长与蜕变。</p>
+        </div>
+        <div class="video-wrapper ratio-1-1">
+          <video preload="metadata" loop playsinline muted>
+            <source src="SASS.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+      <!-- Item 10: XinNianLaiLiao – 1080x1920 portrait -->
+      <div class="portfolio-item reveal">
+        <div class="item-header">
+        <h3 class="item-title">Chinese New Year Wishes Video / 新春祝福短片</h3>
+        <p class="item-desc">A playful video sharing festive prosperity wishes.</p>
+        <p class="item-desc item-desc-zh">以趣味创意传递新春祝福。</p>
+        </div>
+        <div class="video-wrapper ratio-9-16">
+          <video preload="metadata" loop playsinline muted>
+            <source src="XinNianLaiLiao.mp4" type="video/mp4">
+          </video>
+          <div class="video-thumb"><div class="play-icon"></div></div>
+        </div>
+      </div>
+
+    </div><!-- /portfolio-grid -->
+  </div>
+</section>
+
+<!-- ─── RESUME ─────────────────────────────────────── -->
+<section id="resume">
+  <div class="section-inner">
+    <p class="section-label reveal">简历</p>
+    <h3 class="section-title reveal">About Me</h3>
+    <div class="section-divider reveal"></div>
+
+    <!-- Profile block -->
+    <div class="profile-block reveal">
+      <div class="profile-info">
+        <h3 class="profile-name">JAMES WONG</h3>
+        <p class="profile-role">Creative Designer · Motion Artist · 创意设计师 · 动态图形设计师</p>
+        <p class="profile-bio">
+          Designing since 1998, I have evolved from print graphic design to multimedia creative solutions. With over 25 years of experience, I create impactful brand, visual, and digital experiences.
+Driven by creativity and innovation, I turn ideas into meaningful connections. 自1998年踏入设计行业以来，我从传统平面设计一路发展至多媒体创意领域。凭借超过25年的经验，我专注于创造具影响力的品牌、视觉与数码体验。
+我以创意与创新为动力，将每一个想法转化为能够打动人心、建立连接的作品。
+        </p>
+      </div>
+    </div>
+
+    <div class="resume-grid reveal">
+      <!-- Experience -->
+      <div class="resume-col">
+        <p class="resume-col-title">Work Experience · 工作经历</p>
+        <div class="resume-entries-grid">
+        </div>
+
+        <div class="resume-entry">
+          <p class="resume-entry-year">2000 — Present</p>
+          <h4 class="resume-entry-title">Senior Graphic Designer</h4>
+          <p class="resume-entry-sub">Eminent Creative Sdn. Bhd.</p>
+        </div>
+
+        <div class="resume-entry">
+          <p class="resume-entry-year">2017 — 2000</p>
+          <h4 class="resume-entry-title">Senior Graphic Designer</h4>
+          <p class="resume-entry-sub">Designlab Sdn. Bhd.</p>
+        </div>
+
+        <div class="resume-entry">
+          <p class="resume-entry-year">2014 — 2017</p>
+          <h4 class="resume-entry-title">Senior Graphic Designer</h4>
+          <p class="resume-entry-sub">Image Clinic Sdn. Bhd.</p>
+        </div>
+
+        <div class="resume-entry">
+          <p class="resume-entry-year">2006 — 2014</p>
+          <h4 class="resume-entry-title">Senior Graphic Designer</h4>
+          <p class="resume-entry-sub">Cleartone Sdn. Bhd.</p>
+        </div>
+
+        <div class="resume-entry">
+          <p class="resume-entry-year">2004 — 2006</p>
+          <h4 class="resume-entry-title">Freelancer</h4>
+          <p class="resume-entry-sub">Foote Cone & Belding, Malaysia.</p>
+        </div>
+
+        <div class="resume-entry">
+          <p class="resume-entry-year">2000 — 2004</p>
+          <h4 class="resume-entry-title">Graphic Designer</h4>
+          <p class="resume-entry-sub">Denney & Denney Sdn. Bhd.</p>
+        </div>
+
+        <div class="resume-entry">
+          <p class="resume-entry-year">1998 — 2000</p>
+          <h4 class="resume-entry-title">Freelancer</h4>
+          <p class="resume-entry-sub">J. Walter Thompson, Malaysia.</p>
+        </div>
+        </div><!-- /resume-entries-grid -->
+      </div>
+
+      <!-- Education -->
+
+      <div class="resume-col">
+        <p class="resume-col-title">Education · 教育背景</p>
+
+        <div class="resume-entry">
+          <p class="resume-entry-year">1995 — 1998</p>
+          <h4 class="resume-entry-title">Diploma in Communication Design and Advertising Design · 视觉传播与广告设计专业文凭</h4>
+          <p class="resume-entry-sub">The One Academy</p>
+          <p class="resume-entry-desc">Graduated from a rigorous three-year professional design programme, specializing in advertising and visual communication. Gained comprehensive training in creative strategy, branding, graphic design, art direction, typography, and campaign development. Built a strong foundation in conceptual thinking and visual problem-solving for commercial and marketing communications. 完成为期三年的专业设计课程，主修广告设计与视觉传播。系统学习品牌设计、平面设计、创意策略、艺术指导及广告企划，并培养了扎实的创意思维与视觉传达能力。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTACT ────────────────────────────────────── -->
+<section id="contact">
+  <div class="section-inner">
+    <p class="section-label reveal">联系方式</p>
+    <h1 class="section-title reveal">Get In Touch</h1>
+    <div class="section-divider reveal"></div>
+
+    <div class="contact-grid reveal">
+      <div class="contact-info">
+        <p class="contact-info-title">Contact Details · 联系详情</p>
+        <div class="contact-items-grid">
+
+        <div class="contact-info-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <p class="contact-detail-label">电子邮件</p>
+            <p class="contact-detail-value">wckhun@hotmail.com</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-icon">☎️</div>
+          <div>
+            <p class="contact-detail-label">电话 / WhatsApp</p>
+            <p class="contact-detail-value">+6013 313 2716</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-icon">🏠</div>
+          <div>
+            <p class="contact-detail-label">地址</p>
+            <p class="contact-detail-value">Serdang Villa, B-3A-6, Jln Kasturi, Tmn Bkt Serdang, Sek 11, <br>43300 Seri Kembangan Selangor</p>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-icon">👥</div>
+          <div>
+            <p class="contact-detail-label">社交媒体</p>
+            <p class="contact-detail-value">
+              www.linkedin.com/in/james-wong-design
+            </p>
+          </div>
+        </div>
+        </div><!-- /contact-items-grid -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ────────────────────────────────────── -->
+<footer>
+  <p class="footer-copy">© 2026 James Wong. All rights reserved.</p>
+  <p class="footer-mark"><span style="color:var(--white-dim);">.</span></p>
+</footer>
+
+<script>
+/* ── Reveal: content always visible ────────────── */
+/* Handled by CSS animation — no JS hiding needed   */
+
+/* ── Skill Bars ─────────────────────────────────── */
+document.querySelectorAll('.skill-fill').forEach(f => { f.style.width = '0'; });
+const skillObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.skill-fill').forEach(f => { f.style.width = f.dataset.width; });
+      skillObserver.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.2 });
+document.querySelectorAll('.resume-col').forEach(col => skillObserver.observe(col));
+
+/* ── Parallax Background Video ──────────────────── */
+const bgVideo = document.querySelector('.bg-layer video');
+if (bgVideo) {
+  let ticking = false;
+  let scrollTimer = null;
+
+  window.addEventListener('scroll', () => {
+    // Resume video when scrolling starts
+    if (bgVideo.paused) bgVideo.play();
+
+    // Clear any existing stop timer
+    clearTimeout(scrollTimer);
+
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        // Move at 10% of scroll speed
+        const parallaxY = window.scrollY * 0.1;
+        bgVideo.style.transform = `translate(-50%, calc(-50% + ${parallaxY}px))`;
+        ticking = false;
+      });
+      ticking = true;
+    }
+
+    // Pause video 150ms after scrolling stops
+    scrollTimer = setTimeout(() => {
+      bgVideo.pause();
+    }, 150);
+  }, { passive: true });
+}
+
+/* ── Video: Click-to-Play with Sound ────────────── */
+document.querySelectorAll('.video-wrapper').forEach(wrapper => {
+  const video = wrapper.querySelector('video');
+  const thumb = wrapper.querySelector('.video-thumb');
+  if (!video) return;
+
+  let playing = false;
+
+  wrapper.addEventListener('click', () => {
+    if (!playing) {
+      // First click: play with sound (click = user gesture, browser allows)
+      video.currentTime = 0;
+      video.muted = false;
+      video.volume = 0.85;
+      video.play()
+        .then(() => {
+          playing = true;
+          thumb.classList.add('hidden');
+          wrapper.style.cursor = 'pointer';
+        })
+        .catch(() => {
+          // Fallback: muted play
+          video.muted = true;
+          video.play().then(() => {
+            playing = true;
+            thumb.classList.add('hidden');
+          }).catch(() => {});
+        });
+    } else {
+      // Second click: pause and reset
+      video.pause();
+      video.currentTime = 0;
+      video.muted = true;
+      playing = false;
+      thumb.classList.remove('hidden');
+    }
+  });
+
+  // Reset if video ends (non-loop case)
+  video.addEventListener('ended', () => {
+    playing = false;
+    thumb.classList.remove('hidden');
+  });
+});
+
+/* ── Hamburger Menu ──────────────────────────────── */
+const hamburger = document.getElementById('hamburger');
+const navDrawer  = document.getElementById('navDrawer');
+
+function closeDrawer() {
+  navDrawer.classList.remove('open');
+  hamburger.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+hamburger.addEventListener('click', () => {
+  const isOpen = navDrawer.classList.toggle('open');
+  hamburger.classList.toggle('open', isOpen);
+  document.body.style.overflow = isOpen ? 'hidden' : '';
+});
+
+/* ── Nav active highlight on scroll ────────────── */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) cur = s.id;
+  });
+  navLinks.forEach(a => {
+    a.style.color = a.getAttribute('href') === '#' + cur ? 'var(--teal)' : '';
+  });
+}, { passive: true });
+</script>
+</body>
+</html>
