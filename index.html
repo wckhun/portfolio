@@ -25,7 +25,7 @@
   body {
     font-family: 'Inter', sans-serif;
     color: var(--white);
-    background-color: #04080c;
+    background-color: transparent;
     min-height: 100vh;
     overflow-x: hidden;
   }
@@ -37,20 +37,16 @@
     z-index: 0;
     overflow: hidden;
     pointer-events: none;
+    background: #000;
   }
   .bg-layer video {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) translateY(0px);
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    opacity: 0.62;
+    opacity: 1;
     will-change: transform;
-    transition: transform 0.05s linear;
   }
   .bg-overlay {
     position: fixed;
@@ -1237,34 +1233,10 @@ const skillObserver = new IntersectionObserver(entries => {
 }, { threshold: 0.2 });
 document.querySelectorAll('.resume-col').forEach(col => skillObserver.observe(col));
 
-/* ── Parallax Background Video ──────────────────── */
+/* ── Background Video: always playing, always full-cover ── */
 const bgVideo = document.querySelector('.bg-layer video');
 if (bgVideo) {
-  let ticking = false;
-  let scrollTimer = null;
-
-  window.addEventListener('scroll', () => {
-    // Resume video when scrolling starts
-    if (bgVideo.paused) bgVideo.play();
-
-    // Clear any existing stop timer
-    clearTimeout(scrollTimer);
-
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        // Move at 10% of scroll speed
-        const parallaxY = window.scrollY * 0.1;
-        bgVideo.style.transform = `translate(-50%, calc(-50% + ${parallaxY}px))`;
-        ticking = false;
-      });
-      ticking = true;
-    }
-
-    // Pause video 150ms after scrolling stops
-    scrollTimer = setTimeout(() => {
-      bgVideo.pause();
-    }, 150);
-  }, { passive: true });
+  bgVideo.play().catch(() => {});
 }
 
 /* ── Video: Click-to-Play with Sound ────────────── */
